@@ -62,17 +62,23 @@ def addEPSandGrowthRateToCSV():
             #downloads csv with columns of eps, current price, and targetPrice 1 year from time of request
             #setup to avoid connection errors
             downloadDone = False
+            #counter to detect when network errors should stop the program - I have decided that after five attempts
+            #to connect an error should stop the program
+            connectionCounter = 0
             while not downloadDone:
-                try:
+                if connectionCounter <= 5:
+                    try:
+                        download = s.get(url)
+                        downloadDone = True
+                    except:
+                        print("\nConnection refused by the server..")
+                        print("The connection will be attempted again in 5 seconds")
+                        sleep(5)
+                        connectionCounter += 1
+                        continue
+                else:
                     download = s.get(url)
-                    downloadDone = True
-                except:
-                    print("Connection refused by the server..")
-                    print("Let me sleep for 5 seconds")
-                    print("ZZzzzz...")
-                    sleep(5)
-                    print("Was a nice sleep, now let me continue...")
-                    continue
+                    downloadDone =True
             #decodes csv
             decoded_content = download.content.decode('utf-8')
             stockInfo = csv.reader(decoded_content.splitlines(), delimiter = ",")
