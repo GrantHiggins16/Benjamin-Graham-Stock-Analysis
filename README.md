@@ -5,3 +5,11 @@ To generate just a csv of stock tickers use writeCSV.py.
 
 To-Do:
 Work on displaying the data once it is analyzed.
+
+Depends on the libraries:
+
+Pandas
+
+Tabulate
+
+Requests
