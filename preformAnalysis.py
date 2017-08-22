@@ -38,7 +38,7 @@ def makeTest():
     test = csv.writer(f1, dialect = 'excel')
     test.writerow(["Ticker", "Name"])
     test.writerow(["FCCY", "Something"])
-    test.writerow(["AAON", "Something else"])
+    test.writerow(["HPE$", "Something else"])
     f1.close()
 
 #add EPS and growth rate to the csv
@@ -56,6 +56,11 @@ def addEPSandGrowthRateToCSV():
         #querys each ticker individually - probably more efficient to group by 200 -fix later
         url =  "http://download.finance.yahoo.com/d/quotes.csv?"
         #get ticker in non-index column
+        if ("$" in row[1]["Ticker"]):
+            epsToAdd.append("N/A")
+            currentPriceToAdd.append("N/A")
+            targetPriceToAdd.append("N/A")
+            continue
         url += "s=" + row[1]["Ticker"]
         url += "&f=e7l1t8"
         with requests.Session() as s:
@@ -160,4 +165,3 @@ if __name__ == "__main__":
     addGrowthRate()
     addGrahamEstimateOfValue()
     removeBadData()
-    orderAndDisplayData()
