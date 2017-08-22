@@ -165,3 +165,4 @@ if __name__ == "__main__":
     addGrowthRate()
     addGrahamEstimateOfValue()
     removeBadData()
+    orderAndDisplayData()
